@@ -15,6 +15,7 @@ def get_weather() -> None:
         print(f"Performing request for Weather API for city {CITY}")
         try:
             response = requests.get(url, timeout=30)
+            response.raise_for_status()
             data = response.json()
             location_data = data.get("location")
             current_data = data.get("current")
@@ -30,9 +31,11 @@ def get_weather() -> None:
             temp_c = current_data.get("temp_c")
             if not temp_c:
                 temp_c = "N/A"
-            condition = current_data.get("condition").get("text")
-            if not condition:
-                condition = "better check the window"
+            condition = current_data.get("condition")
+            if "text" in condition:
+                condition = condition["text"]
+            else:
+                condition = "N/A"
 
             print(f"{city}/{country}"
                   f" {date_time_local} "
