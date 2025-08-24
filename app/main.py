@@ -29,7 +29,7 @@ def get_weather() -> None:
             if not date_time_local:
                 date_time_local = "time to have a break"
             temp_c = current_data.get("temp_c")
-            if not temp_c:
+            if temp_c is None:
                 temp_c = "N/A"
             condition = current_data.get("condition")
             if "text" in condition:
